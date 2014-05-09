@@ -1,14 +1,14 @@
 ( function( $ ) {
 	L.Icon.Default.imagePath = mw.config.get( 'extWikiMapsImagePath' );
 
-	var lat = mw.util.getParamValue( 'lat' ) || 0,
-		lon = mw.util.getParamValue( 'lon' ) || 0,
-		zoom = mw.util.getParamValue( 'zoom' ) || 1,
-		map = L.map( 'mw-wiki-map-main' ).setView( [ lat, lon ], zoom ),
+	var lat = mw.util.getParamValue( 'lat' ),
+		lon = mw.util.getParamValue( 'lon' ),
+		zoom = mw.util.getParamValue( 'zoom' ),
+		map = L.map( 'mw-wiki-map-main' );
 		geoJsonData = mw.config.get( 'extWikiMapsCurrentMap' );
 
 	if ( geoJsonData ) {
-		L.geoJson( geoJsonData, {
+		var geoJson = L.geoJson( geoJsonData, {
 		    onEachFeature: function (feature, layer) {
 					var $popup = $( '<div>' ),
 						props = feature.properties || {},
@@ -24,10 +24,23 @@
 						layer.bindPopup( $popup[0] );
 					}
 				}
-		} ).addTo( map );
+		} );
+
+		map.fitBounds( L.featureGroup([geoJson]).getBounds() );
+
+		if ( lat && lon ) {
+			map.setView[ lat, lon ];
+		}
+
+		if ( zoom ) {
+			map.setZoom( zoom );
+		}
+
+		geoJson.addTo( map );
 	}
 	L.tileLayer( mw.config.get( 'extWikiMapsTitleServer' ), {
 		attribution: mw.config.get( 'extWikiMapsAttribution' ),
 		maxZoom: 18
 	} ).addTo(map);
+
 } ( jQuery ) );
