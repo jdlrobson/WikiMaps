@@ -42,7 +42,7 @@ class GeoHooks {
 	 * @return bool
 	 */
 	static function onCodeEditorGetPageLanguage( $title, &$lang ) {
-		if ( $title->inNamespace( NS_MAP ) ) {
+		if ( $title->getContentModel() === 'GeoJSON' ) {
 			$lang = 'json';
 		}
 		return true;
