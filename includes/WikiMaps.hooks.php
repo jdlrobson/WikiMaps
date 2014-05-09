@@ -12,11 +12,14 @@
 class GeoHooks {
 	public static function getSkinConfigVariables() {
 		global $extWikiMapsTitleServer,
+			$extWikiMapsImagePath,
 			$extWikiMapsAttribution;
 
 		return array(
 			'extWikiMapsTitleServer' => $extWikiMapsTitleServer,
 			'extWikiMapsAttribution' => $extWikiMapsAttribution,
+			'extWikiMapsImagePath' => $extWikiMapsImagePath,
+			'extWikiMapsCurrentMap' => array(),
 		);
 	}
 
