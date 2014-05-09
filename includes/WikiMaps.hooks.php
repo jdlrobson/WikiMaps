@@ -10,7 +10,7 @@
  */
 
 class GeoHooks {
-	public static function getSkinConfigVariables() {
+	public static function getSkinConfigVariables( $data ) {
 		global $extWikiMapsTitleServer,
 			$extWikiMapsImagePath,
 			$extWikiMapsAttribution;
@@ -19,16 +19,22 @@ class GeoHooks {
 			'extWikiMapsTitleServer' => $extWikiMapsTitleServer,
 			'extWikiMapsAttribution' => $extWikiMapsAttribution,
 			'extWikiMapsImagePath' => $extWikiMapsImagePath,
-			'extWikiMapsCurrentMap' => array(),
+			'extWikiMapsCurrentMap' => $data,
 		);
 	}
 
 	public static function onBeforePageDisplay( $out, $skin ) {
+		$title = $out->getTitle();
+
 		$action = Action::getActionName( $out->getContext() );
-		if ( $out->getTitle()->getNamespace() === NS_MAP && $action === 'view' ) {
+		if ( $title->getNamespace() === NS_MAP && $action === 'view' ) {
+			$page = WikiPage::factory( $title );
+			$content = $page->getContent();
+			$data = $content->getJsonData();
+
 			$out->clearHtml();
 			$out->addHtml( '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>' );
-			$out->addJsConfigVars( self::getSkinConfigVariables() );
+			$out->addJsConfigVars( self::getSkinConfigVariables( $data ) );
 			$out->addModuleStyles( 'wikimaps.styles' );
 			$out->addModules( 'wikimaps.scripts' );
 		}
@@ -48,4 +54,5 @@ class GeoHooks {
 		}
 		return true;
 	}
+
 }
