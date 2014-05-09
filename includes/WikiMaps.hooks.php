@@ -39,7 +39,8 @@ class GeoHooks {
 	}
 
 	public static function onBeforePageDisplay( $out, $skin ) {
-		if ( $out->getTitle()->getNamespace() === NS_MAP ) {
+		$action = Action::getActionName( $out->getContext() );
+		if ( $out->getTitle()->getNamespace() === NS_MAP && $action === 'view' ) {
 			$out->clearHtml();
 			$out->addHtml( '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>' );
 			$out->addJsConfigVars( self::getSkinConfigVariables() );
