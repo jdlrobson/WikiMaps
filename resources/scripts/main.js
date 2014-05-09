@@ -29,7 +29,7 @@
 		map.fitBounds( L.featureGroup([geoJson]).getBounds() );
 
 		if ( lat && lon ) {
-			map.setView[ lat, lon ];
+			map.setView( L.latLng( lat, lon ) );
 		}
 
 		if ( zoom ) {
