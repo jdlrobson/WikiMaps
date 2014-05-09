@@ -4,32 +4,33 @@
 	var lat = mw.util.getParamValue( 'lat' ),
 		lon = mw.util.getParamValue( 'lon' ),
 		zoom = mw.util.getParamValue( 'zoom' ),
-		map = L.map( 'mw-wiki-map-main' );
+		map = L.map( 'mw-wiki-map-main' ).setView( [ 0, 0 ], 1 ),
+		geoJson,
 		geoJsonData = mw.config.get( 'extWikiMapsCurrentMap' );
 
 	if ( geoJsonData ) {
-		var geoJson = L.geoJson( geoJsonData, {
-		    onEachFeature: function (feature, layer) {
-					var $popup = $( '<div>' ),
-						props = feature.properties || {},
-						name = props.name,
-						desc = props.description;
-					if ( name || desc ) {
-						if ( name ) {
-							$( '<h2>' ).text( name ).appendTo( $popup );
-						}
-						if ( desc ) {
-							$popup.append( desc );
-						}
-						layer.bindPopup( $popup[0] );
+		geoJson = L.geoJson( geoJsonData, {
+			onEachFeature: function ( feature, layer ) {
+				var $popup = $( '<div>' ),
+					props = feature.properties || {},
+					name = props.name,
+					desc = props.description;
+				if ( name || desc ) {
+					if ( name ) {
+						$( '<h2>' ).text( name ).appendTo( $popup );
 					}
+					if ( desc ) {
+						$popup.append( desc );
+					}
+					layer.bindPopup( $popup[0] );
 				}
+			}
 		} );
 
-		map.fitBounds( L.featureGroup([geoJson]).getBounds() );
+		map.fitBounds( L.featureGroup( [ geoJson ] ).getBounds() );
 
 		if ( lat && lon ) {
-			map.setView[ lat, lon ];
+			map.setView( L.latLng( lat, lon ) );
 		}
 
 		if ( zoom ) {

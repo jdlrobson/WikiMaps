@@ -15,12 +15,15 @@ class GeoHooks {
 			$extWikiMapsImagePath,
 			$extWikiMapsAttribution;
 
-		return array(
+		$vars = array(
 			'extWikiMapsTileServer' => $extWikiMapsTileServer,
 			'extWikiMapsAttribution' => $extWikiMapsAttribution,
 			'extWikiMapsImagePath' => $extWikiMapsImagePath,
-			'extWikiMapsCurrentMap' => $data,
 		);
+		if ( $data ) {
+			$vars['extWikiMapsCurrentMap'] = $data;
+		}
+		return $vars;
 	}
 
 	public static function onBeforePageDisplay( $out, $skin ) {
@@ -33,7 +36,7 @@ class GeoHooks {
 				$content = $page->getContent();
 				$data = $content->getJsonData();
 			} else {
-				$data = array();
+				$data = null;
 			}
 
 			$out->clearHtml();
