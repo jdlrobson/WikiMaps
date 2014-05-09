@@ -10,6 +10,16 @@
  */
 
 class GeoHooks {
+	public static function getSkinConfigVariables() {
+		global $extWikiMapsTitleServer,
+			$extWikiMapsAttribution;
+
+		return array(
+			'extWikiMapsTitleServer' => $extWikiMapsTitleServer,
+			'extWikiMapsAttribution' => $extWikiMapsAttribution,
+		);
+	}
+
 	/**
 	 * CustomEditor hook handler
 	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/CustomEditor
@@ -30,7 +40,10 @@ class GeoHooks {
 
 	public static function onBeforePageDisplay( $out, $skin ) {
 		$out->clearHtml();
-		$out->addHtml( 'PRINT MAP HERE' );
+		$out->addHtml( '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>' );
+		$out->addJsConfigVars( self::getSkinConfigVariables() );
+		$out->addModuleStyles( 'wikimaps.styles' );
+		$out->addModules( 'wikimaps.scripts' );
 		return true;
 	}
 }

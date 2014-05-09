@@ -36,5 +36,16 @@ foreach ( $autoloadClasses as $className => $classFilename ) {
 $wgHooks['CustomEditor'][] = 'GeoHooks::onCustomEditor';
 $wgHooks['BeforePageDisplay'][]  = 'GeoHooks::onBeforePageDisplay';
 
+// Global variables
+$extWikiMapsTitleServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
+$extWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
+
 // ResourceLoader modules
+/**
+ * A boilerplate for resource loader modules
+ */
+$extWikiMapsBoilerplate = array(
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'WikiMaps',
+);
 require_once __DIR__ . "/includes/Resources.php";
