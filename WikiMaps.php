@@ -27,14 +27,34 @@ $wgExtraNamespaces[NS_MAP_TALK] = "Map_talk";
 // autoload extension classes
 $autoloadClasses = array (
 	'GeoHooks' => 'includes/WikiMaps.hooks.php',
+	'GeoJSONContent' => 'includes/GeoJSONContent.php',
+	'GeoJSONContentHandler' => 'includes/GeoJSONContentHandler.php',
 );
+
+$wgHooks[ 'CodeEditorGetPageLanguage' ][] = 'GeoHooks::onCodeEditorGetPageLanguage';
+
+/**
+ * Takes a string of JSON data and formats it for readability.
+ * @param string $json
+ * @return string|null: Formatted JSON or null if input was invalid.
+ */
+function efBeautifyJson( $json ) {
+        $decoded = FormatJson::decode( $json, true );
+        if ( !is_array( $decoded ) ) {
+                return NULL;
+        }
+        return FormatJson::encode( $decoded, true );
+}
 
 foreach ( $autoloadClasses as $className => $classFilename ) {
 	$wgAutoloadClasses[$className] = __DIR__ . "/$classFilename";
 }
 
-$wgHooks['CustomEditor'][] = 'GeoHooks::onCustomEditor';
-$wgHooks['BeforePageDisplay'][]  = 'GeoHooks::onBeforePageDisplay';
+// $wgHooks['CustomEditor'][] = 'GeoHooks::onCustomEditor';
+// $wgHooks['BeforePageDisplay'][]  = 'GeoHooks::onBeforePageDisplay';
+
+$wgContentHandlers[ 'GeoJSON' ] = 'GeoJSONContentHandler';
+$wgNamespaceContentModels[ NS_MAP ] = 'GeoJSON';
 
 // ResourceLoader modules
 require_once __DIR__ . "/includes/Resources.php";
