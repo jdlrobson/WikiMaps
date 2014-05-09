@@ -26,7 +26,7 @@
 				}
 		} ).addTo( map );
 	}
-	L.tileLayer( mw.config.get( 'extWikiMapsTitleServer' ), {
+	L.tileLayer( mw.config.get( 'extWikiMapsTileServer' ), {
 		attribution: mw.config.get( 'extWikiMapsAttribution' ),
 		maxZoom: 18
 	} ).addTo(map);

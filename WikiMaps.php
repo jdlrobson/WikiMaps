@@ -56,7 +56,7 @@ $wgContentHandlers[ 'GeoJSON' ] = 'GeoJSONContentHandler';
 $wgNamespaceContentModels[ NS_MAP ] = 'GeoJSON';
 
 // Global variables
-$extWikiMapsTitleServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
+$extWikiMapsTileServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
 $extWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 $extWikiMapsImagePath = '//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/images/';
 
