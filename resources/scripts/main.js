@@ -1,7 +1,10 @@
 ( function( $ ) {
 	L.Icon.Default.imagePath = mw.config.get( 'extWikiMapsImagePath' );
 
-	var map = L.map( 'mw-wiki-map-main' ).setView( [ 0, 0 ], 1 ),
+	var lat = mw.util.getParamValue( 'lat' ) || 0,
+		lon = mw.util.getParamValue( 'lon' ) || 0,
+		zoom = mw.util.getParamValue( 'zoom' ) || 1,
+		map = L.map( 'mw-wiki-map-main' ).setView( [ lat, lon ], zoom ),
 		geoJsonData = mw.config.get( 'extWikiMapsCurrentMap' );
 
 	if ( geoJsonData ) {
