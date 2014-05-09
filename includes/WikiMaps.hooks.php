@@ -29,8 +29,12 @@ class GeoHooks {
 		$action = Action::getActionName( $out->getContext() );
 		if ( $title->getNamespace() === NS_MAP && $action === 'view' ) {
 			$page = WikiPage::factory( $title );
-			$content = $page->getContent();
-			$data = $content->getJsonData();
+			if ( $page->exists() ) {
+				$content = $page->getContent();
+				$data = $content->getJsonData();
+			} else {
+				$data = array();
+			}
 
 			$out->clearHtml();
 			$out->addHtml( '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>' );
