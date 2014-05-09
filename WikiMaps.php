@@ -67,5 +67,6 @@ $extWikiMapsImagePath = '//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/images/'
 $extWikiMapsBoilerplate = array(
 	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'WikiMaps',
+	'targets' => array( 'mobile', 'desktop' ),
 );
 require_once __DIR__ . "/includes/Resources.php";
