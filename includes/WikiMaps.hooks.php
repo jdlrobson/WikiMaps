@@ -62,4 +62,33 @@ class GeoHooks {
 		return true;
 	}
 
+	public static function onWikiMapParserInit( Parser $parser ) {
+		$parser->setHook( 'map', array( __CLASS__, 'embedMapTag' ) );
+	}
+
+	/**
+	 * Probably needs linktable update
+	 * <map title="Map:MyMap" />
+	 */
+	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( isset( $args['title'] ) ) {
+			$title = Title::newFromText( $args['title'] );
+			$page = WikiPage::factory( $title );
+			if ( $page->exists() ) {
+				$content = $page->getContent();
+				$data = $content->getJsonData();
+			} else {
+				$data = array();
+			}
+			$out = $parser->getOutput();
+			$out->addJsConfigVars( self::getSkinConfigVariables( $data ) );
+			$out->addModuleStyles( 'wikimaps.styles' );
+			$out->addModules( 'wikimaps.scripts' );
+
+			return '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>';
+		} else {
+			return '';
+		}
+	}
+
 }

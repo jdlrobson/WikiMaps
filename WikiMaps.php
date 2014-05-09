@@ -55,6 +55,9 @@ $wgHooks['BeforePageDisplay'][]  = 'GeoHooks::onBeforePageDisplay';
 $wgContentHandlers[ 'GeoJSON' ] = 'GeoJSONContentHandler';
 $wgNamespaceContentModels[ NS_MAP ] = 'GeoJSON';
 
+// Parser hook
+$wgHooks['ParserFirstCallInit'][] = 'GeoHooks::onWikiMapParserInit';
+
 // Global variables
 $extWikiMapsTileServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
 $extWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
