@@ -39,11 +39,13 @@ class GeoHooks {
 	}
 
 	public static function onBeforePageDisplay( $out, $skin ) {
-		$out->clearHtml();
-		$out->addHtml( '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>' );
-		$out->addJsConfigVars( self::getSkinConfigVariables() );
-		$out->addModuleStyles( 'wikimaps.styles' );
-		$out->addModules( 'wikimaps.scripts' );
+		if ( $out->getTitle()->getNamespace() === NS_MAP ) {
+			$out->clearHtml();
+			$out->addHtml( '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>' );
+			$out->addJsConfigVars( self::getSkinConfigVariables() );
+			$out->addModuleStyles( 'wikimaps.styles' );
+			$out->addModules( 'wikimaps.scripts' );
+		}
 		return true;
 	}
 }
