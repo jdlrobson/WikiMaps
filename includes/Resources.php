@@ -10,6 +10,7 @@ $modules = array(
 			'wikimaps.leaflet',
 		),
 		'scripts' => array(
+			'resources/scripts/WikiMap.js',
 			'resources/scripts/main.js',
 		),
 	),
@@ -26,7 +27,6 @@ $modules = array(
 		),
 		'scripts' => array(
 			'resources/scripts/editor/leaflet.draw.js',
-			'resources/scripts/editor/main.js',
 		),
 		'styles' => array(
 			'resources/styles/editor/leaflet.draw.css',
