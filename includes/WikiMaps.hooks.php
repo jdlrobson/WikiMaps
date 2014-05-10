@@ -22,7 +22,7 @@ class GeoHooks {
 		);
 	}
 
-	public static function getMapHtml( $title ) {
+	public static function getMapHtml( $title, $className='' ) {
 		$page = WikiPage::factory( $title );
 		if ( $page->exists() ) {
 			$content = $page->getContent();
@@ -33,7 +33,7 @@ class GeoHooks {
 		$data = json_encode( $data );
 		return Html::element( 'div',
 			array(
-				"class" => "mw-wiki-map",
+				"class" => "mw-wiki-map " . $className,
 				"data-map" => $data,
 			)
 		);
@@ -83,7 +83,8 @@ class GeoHooks {
 			$out->addModuleStyles( 'wikimaps.styles' );
 			$out->addModules( 'wikimaps.scripts' );
 
-			return self::getMapHtml( $title );
+			$className = $args['class'] ? $args['class'] : '';
+			return self::getMapHtml( $title, $className );
 		} else {
 			return '';
 		}
