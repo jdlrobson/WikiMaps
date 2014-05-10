@@ -59,15 +59,15 @@ $wgNamespaceContentModels[ NS_MAP ] = 'GeoJSON';
 $wgHooks['ParserFirstCallInit'][] = 'GeoHooks::onWikiMapParserInit';
 
 // Global variables
-$extWikiMapsTileServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
-$extWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
-$extWikiMapsImagePath = '//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/images/';
+$wgWikiMapsTileServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
+$wgWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
+$wgWikiMapsImagePath = '//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/images/';
 
 // ResourceLoader modules
 /**
  * A boilerplate for resource loader modules
  */
-$extWikiMapsBoilerplate = array(
+$wgWikiMapsBoilerplate = array(
 	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'WikiMaps',
 	'targets' => array( 'mobile', 'desktop' ),

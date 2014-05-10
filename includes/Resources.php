@@ -1,16 +1,16 @@
 <?php
 $modules = array(
-	'wikimaps.scripts' => $extWikiMapsBoilerplate + array(
+	'wikimaps.scripts' => $wgWikiMapsBoilerplate + array(
 		'scripts' => array(
 			'resources/scripts/skin.js',
 		),
 	),
-	'wikimaps.leaflet' => $extWikiMapsBoilerplate + array(
+	'wikimaps.leaflet' => $wgWikiMapsBoilerplate + array(
 		'scripts' => array(
 			'resources/scripts/leaflet.js',
 		),
 	),
-	'wikimaps.view.scripts' => $extWikiMapsBoilerplate + array(
+	'wikimaps.view.scripts' => $wgWikiMapsBoilerplate + array(
 		'dependencies' => array(
 			'wikimaps.leaflet',
 		),
@@ -19,13 +19,13 @@ $modules = array(
 			'resources/scripts/main.js',
 		),
 	),
-	'wikimaps.styles' => $extWikiMapsBoilerplate + array(
+	'wikimaps.styles' => $wgWikiMapsBoilerplate + array(
 		'styles' => array(
 			'resources/styles/leaflet.css',
 			'resources/styles/common.less',
 		),
 	),
-	'wikimaps.editor' => $extWikiMapsBoilerplate + array(
+	'wikimaps.editor' => $wgWikiMapsBoilerplate + array(
 		'dependencies' => array(
 			'wikimaps.leaflet',
 			'mediawiki.api',
