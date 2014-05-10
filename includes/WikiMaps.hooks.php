@@ -10,20 +10,33 @@
  */
 
 class GeoHooks {
-	public static function getSkinConfigVariables( $data ) {
+	public static function getSkinConfigVariables() {
 		global $extWikiMapsTileServer,
 			$extWikiMapsImagePath,
 			$extWikiMapsAttribution;
 
-		$vars = array(
+		return array(
 			'extWikiMapsTileServer' => $extWikiMapsTileServer,
 			'extWikiMapsAttribution' => $extWikiMapsAttribution,
 			'extWikiMapsImagePath' => $extWikiMapsImagePath,
 		);
-		if ( $data ) {
-			$vars['extWikiMapsCurrentMap'] = $data;
+	}
+
+	public static function getMapHtml( $title ) {
+		$page = WikiPage::factory( $title );
+		if ( $page->exists() ) {
+			$content = $page->getContent();
+			$data = $content->getJsonData();
+		} else {
+			$data = array();
 		}
-		return $vars;
+		$data = json_encode( $data );
+		return Html::element( 'div',
+			array(
+				"class" => "mw-wiki-map",
+				"data-map" => $data,
+			)
+		);
 	}
 
 	public static function onBeforePageDisplay( $out, $skin ) {
@@ -31,17 +44,9 @@ class GeoHooks {
 
 		$action = Action::getActionName( $out->getContext() );
 		if ( $title->getNamespace() === NS_MAP && $action === 'view' ) {
-			$page = WikiPage::factory( $title );
-			if ( $page->exists() ) {
-				$content = $page->getContent();
-				$data = $content->getJsonData();
-			} else {
-				$data = null;
-			}
-
 			$out->clearHtml();
-			$out->addHtml( '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>' );
-			$out->addJsConfigVars( self::getSkinConfigVariables( $data ) );
+			$out->addHtml( self::getMapHtml( $title ) );
+			$out->addJsConfigVars( self::getSkinConfigVariables() );
 			$out->addModuleStyles( 'wikimaps.styles' );
 			$out->addModules( 'wikimaps.scripts' );
 		}
@@ -73,19 +78,12 @@ class GeoHooks {
 	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( isset( $args['title'] ) ) {
 			$title = Title::newFromText( $args['title'] );
-			$page = WikiPage::factory( $title );
-			if ( $page->exists() ) {
-				$content = $page->getContent();
-				$data = $content->getJsonData();
-			} else {
-				$data = array();
-			}
 			$out = $parser->getOutput();
-			$out->addJsConfigVars( self::getSkinConfigVariables( $data ) );
+			$out->addJsConfigVars( self::getSkinConfigVariables() );
 			$out->addModuleStyles( 'wikimaps.styles' );
 			$out->addModules( 'wikimaps.scripts' );
 
-			return '<div id="mw-wiki-map-main" class="mw-wiki-map"></div>';
+			return self::getMapHtml( $title );
 		} else {
 			return '';
 		}
