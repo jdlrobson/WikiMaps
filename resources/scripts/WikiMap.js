@@ -22,6 +22,9 @@
 		this.isDirty = function() {
 			return isDirty;
 		}
+		this.reportError = function() {
+			$icon.addClass( 'error' ).text( 'Failed to save changes.' );
+		}
 	}
 
 	function WikiMap( el, geoJsonData ) {
@@ -160,8 +163,10 @@
 				this.api.abort();
 			}
 			this.status.setDirty( true );
-			this.api.postWithToken( 'edit', apiOptions ).done( function() {
+			this.api.postWithToken( 'edit', apiOptions ).done( function( data ) {
 				self.status.setDirty( false );
+			} ).fail( function( msg ) {
+				self.status.reportError();
 			} );
 		}
 	};
