@@ -44,14 +44,17 @@
 						layer.bindPopup( $popup[0] );
 					}
 				}
-			} );
+			} ),
+			fg = this.featureGroup;
 
-			this.featureGroup.addLayer( geoJson );
-			this.map.fitBounds( this.featureGroup.getBounds() );
+			$.each( geoJson.getLayers(), function() {
+				fg.addLayer( this );
+			} );
+			this.map.fitBounds( fg.getBounds() );
 			if ( this.map.getZoom() > 19 ) {
 				this.map.setZoom( 15 );
 			}
-			this.featureGroup.addTo( this.map );
+			fg.addTo( this.map );
 		},
 		makeEditable: function() {
 			var wikimap = this,
@@ -102,6 +105,9 @@
 				self.save();
 			} );
 			this.map.on( 'draw:deletestop', function ( e ) {
+				self.save();
+			} );
+			this.map.on( 'draw:edited', function ( e ) {
 				self.save();
 			} );
 		},
