@@ -65,6 +65,9 @@
 				drawControl = new L.Control.Draw( {
 					edit: {
 						featureGroup: drawnItems
+					},
+					draw: {
+						circle: false
 					}
 				} );
 
