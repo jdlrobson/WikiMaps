@@ -1,11 +1,16 @@
 <?php
 $modules = array(
+	'wikimaps.scripts' => $extWikiMapsBoilerplate + array(
+		'scripts' => array(
+			'resources/scripts/skin.js',
+		),
+	),
 	'wikimaps.leaflet' => $extWikiMapsBoilerplate + array(
 		'scripts' => array(
 			'resources/scripts/leaflet.js',
 		),
 	),
-	'wikimaps.scripts' => $extWikiMapsBoilerplate + array(
+	'wikimaps.view.scripts' => $extWikiMapsBoilerplate + array(
 		'dependencies' => array(
 			'wikimaps.leaflet',
 		),

@@ -43,12 +43,15 @@ class GeoHooks {
 		$title = $out->getTitle();
 
 		$action = Action::getActionName( $out->getContext() );
-		if ( $title->getNamespace() === NS_MAP && $action === 'view' ) {
-			$out->clearHtml();
-			$out->addHtml( self::getMapHtml( $title ) );
-			$out->addJsConfigVars( self::getSkinConfigVariables() );
-			$out->addModuleStyles( 'wikimaps.styles' );
+		if ( $title->getNamespace() === NS_MAP ) {
 			$out->addModules( 'wikimaps.scripts' );
+			if ( $action === 'view' ) {
+				$out->clearHtml();
+				$out->addHtml( self::getMapHtml( $title ) );
+				$out->addJsConfigVars( self::getSkinConfigVariables() );
+				$out->addModuleStyles( 'wikimaps.styles' );
+				$out->addModules( 'wikimaps.view.scripts' );
+			}
 		}
 		return true;
 	}

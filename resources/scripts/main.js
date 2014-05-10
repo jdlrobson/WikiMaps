@@ -1,6 +1,6 @@
 ( function( $ ) {
-	var inEditMode = mw.util.getParamValue( 'mapedit' ),
-		WikiMap = mw.wikiMaps.WikiMap;
+	var WikiMap = mw.wikiMaps.WikiMap,
+		inEditMode = mw.util.getParamValue( 'mapaction' );
 
 	L.Icon.Default.imagePath = mw.config.get( 'extWikiMapsImagePath' );
 
@@ -10,4 +10,5 @@
 			map.makeEditable( map );
 		}
 	} );
+
 } ( jQuery ) );
