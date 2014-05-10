@@ -35,7 +35,7 @@
 		this.api = new mw.Api();
 		this.status = new WikiMapEditStatus( el );
 		this.el = el;
-		this.map = L.map( el ).setView( [ 0, 0 ], 1 );
+		this.map = L.map( el, { keyboard: false } ).setView( [ 0, 0 ], 1 );
 		this.featureGroup = new L.FeatureGroup();
 
 		if ( geoJsonData ) {
