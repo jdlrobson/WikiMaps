@@ -11,6 +11,9 @@
 				wikiMap.addLayer( layer );
 				self.save( wikiMap.toGeoJSON() );
 			} );
+			wikiMap.map.on( 'draw:deletestop', function ( e ) {
+				self.save( wikiMap.toGeoJSON() );
+			} );
 		},
 		save: function( geoJson ) {
 			var apiOptions = {

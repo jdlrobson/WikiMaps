@@ -7,6 +7,7 @@
 			zoom = mw.util.getParamValue( 'zoom' );
 
 		this.map = L.map( el ).setView( [ 0, 0 ], 1 );
+		this.featureGroup = new L.FeatureGroup();
 
 		if ( geoJsonData ) {
 			this.loadGeoJson( geoJsonData );
@@ -46,20 +47,20 @@
 				}
 			} );
 
-			this.geoJsonLayer = L.featureGroup( [ geoJson ] );
-			this.map.fitBounds( this.geoJsonLayer.getBounds() );
+			this.featureGroup.addLayer( geoJson );
+			this.map.fitBounds( this.featureGroup.getBounds() );
 			if ( this.map.getZoom() > 19 ) {
 				this.map.setZoom( 15 );
 			}
-			this.geoJsonLayer.addTo( this.map );
+			this.featureGroup.addTo( this.map );
 		},
 		makeEditable: function() {
 			var wikimap = this,
+				drawnItems = wikimap.featureGroup,
 				map = this.map;
 			mw.loader.using( 'wikimaps.editor', function() {
 				// Initialise the FeatureGroup to store editable layers
-				var drawnItems, drawnControl;
-				drawnItems = new L.FeatureGroup();
+				var drawnControl;
 
 				// Initialise the draw control and pass it the FeatureGroup of editable layers
 				drawControl = new L.Control.Draw( {
@@ -77,11 +78,11 @@
 			} );
 		},
 		addLayer: function( layer ) {
-			this.geoJsonLayer.addLayer( layer );
+			this.featureGroup.addLayer( layer );
 			this.map.addLayer( layer );
 		},
 		toGeoJSON: function() {
-			var featureGroup = this.geoJsonLayer,
+			var featureGroup = this.featureGroup,
 				newFeatures = [];
 			featureGroup.eachLayer( function( l ) {
 				newFeatures.push( l.toGeoJSON() );
