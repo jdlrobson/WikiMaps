@@ -77,7 +77,7 @@ class GeoHooks {
 	 */
 	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( isset( $args['title'] ) ) {
-			$title = Title::newFromText( $args['title'] );
+			$title = Title::newFromText( $args['title'], NS_MAP );
 			$out = $parser->getOutput();
 			$out->addJsConfigVars( self::getSkinConfigVariables() );
 			$out->addModuleStyles( 'wikimaps.styles' );
