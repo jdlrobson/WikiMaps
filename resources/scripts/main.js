@@ -1,7 +1,26 @@
 ( function( $ ) {
 	L.Icon.Default.imagePath = mw.config.get( 'extWikiMapsImagePath' );
 
-	function addMap( el, geoJsonData ) {
+	function makeEditable( map ) {
+		mw.loader.using( 'wikimaps.editor', function() {
+			// Initialise the FeatureGroup to store editable layers
+			var drawnItems, drawnControl;
+			drawnItems = new L.FeatureGroup();
+
+			// Initialise the draw control and pass it the FeatureGroup of editable layers
+			drawControl = new L.Control.Draw( {
+				edit: {
+					featureGroup: drawnItems
+				}
+			} );
+
+			map.addLayer( drawnItems);
+			map.addControl( drawControl );
+			mw.wikimaps.bindSaveEvents( map );
+		} );
+	}
+
+	function addMap( el, geoJsonData, isEditable ) {
 		var lat = mw.util.getParamValue( 'lat' ),
 			lon = mw.util.getParamValue( 'lon' ),
 			zoom = mw.util.getParamValue( 'zoom' ),
@@ -43,9 +62,15 @@
 			attribution: mw.config.get( 'extWikiMapsAttribution' ),
 			maxZoom: 18
 		} ).addTo( map );
+
+		if ( isEditable ) {
+			makeEditable( map );
+		}
 	}
+
 	$( '.mw-wiki-map' ).each( function() {
-		addMap( this, $( this ).data( 'map' ) );
+		addMap( this, $( this ).data( 'map' ), mw.util.getParamValue( 'mapedit' ) );
 	} );
 
+	mw.wikimaps = {};
 } ( jQuery ) );
