@@ -20,12 +20,25 @@
 		} );
 	}
 
+	function featureGroupToGeoJSON( featureGroup ) {
+		var newFeatures = [];
+		featureGroup.eachLayer( function( l ) {
+			newFeatures.push( l.toGeoJSON() );
+		});
+
+		return {
+			type: 'FeatureCollection',
+			features: newFeatures
+		};
+	}
+
 	function addMap( el, geoJsonData, isEditable ) {
 		var lat = mw.util.getParamValue( 'lat' ),
 			lon = mw.util.getParamValue( 'lon' ),
 			zoom = mw.util.getParamValue( 'zoom' ),
 			map = L.map( el ).setView( [ 0, 0 ], 1 ),
-			geoJson;
+			geoJson,
+			geoJsonLayer;
 
 		if ( geoJsonData ) {
 			geoJson = L.geoJson( geoJsonData, {
@@ -46,7 +59,8 @@
 				}
 			} );
 
-			map.fitBounds( L.featureGroup( [ geoJson ] ).getBounds() );
+			geoJsonLayer = L.featureGroup( [ geoJson ] );
+			map.fitBounds( geoJsonLayer.getBounds() );
 
 			if ( lat && lon ) {
 				map.setView( L.latLng( lat, lon ) );
@@ -56,8 +70,9 @@
 				map.setZoom( zoom );
 			}
 
-			geoJson.addTo( map );
+			geoJsonLayer.addTo( map );
 		}
+
 		L.tileLayer( mw.config.get( 'extWikiMapsTileServer' ), {
 			attribution: mw.config.get( 'extWikiMapsAttribution' ),
 			maxZoom: 18
@@ -66,6 +81,7 @@
 		if ( isEditable ) {
 			makeEditable( map );
 		}
+
 	}
 
 	$( '.mw-wiki-map' ).each( function() {
