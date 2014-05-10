@@ -22,6 +22,7 @@ $modules = array(
 	'wikimaps.editor' => $extWikiMapsBoilerplate + array(
 		'dependencies' => array(
 			'wikimaps.leaflet',
+			'mediawiki.api',
 		),
 		'scripts' => array(
 			'resources/scripts/editor/leaflet.draw.js',
