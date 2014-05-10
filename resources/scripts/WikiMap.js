@@ -1,10 +1,37 @@
 ( function( $ ) {
+	var activeMap;
+	window.onbeforeunload = function() {
+		if ( activeMap && activeMap.status.isDirty() ) {
+			return 'You have unsaved changes to your map. Please wait for your save to complete before leaving the page.';
+		}
+	};
+
+	function WikiMapEditStatus( el ) {
+		var isDirty = false,
+			$icon = $( '<div class="mw-wikimap-status"></div>' ).
+				text( 'saving map...' ).appendTo( el );
+
+		this.setDirty = function( status ) {
+			isDirty = status;
+			if ( status ) {
+				$icon.addClass( 'dirty' );
+			} else {
+				$icon.removeClass( 'dirty' )
+			}
+		}
+		this.isDirty = function() {
+			return isDirty;
+		}
+	}
+
 	function WikiMap( el, geoJsonData ) {
 		var lat = mw.util.getParamValue( 'lat' ),
 			lon = mw.util.getParamValue( 'lon' ),
 			zoom = mw.util.getParamValue( 'zoom' );
 
 		this.api = new mw.Api();
+		this.status = new WikiMapEditStatus( el );
+		this.el = el;
 		this.map = L.map( el ).setView( [ 0, 0 ], 1 );
 		this.featureGroup = new L.FeatureGroup();
 
@@ -57,6 +84,14 @@
 			fg.addTo( this.map );
 		},
 		makeEditable: function() {
+			if ( !activeMap ) {
+				this._makeEditable();
+				activeMap = this;
+			} else {
+				throw "Only one map is editable at any given time.";
+			}
+		},
+		_makeEditable: function() {
 			var wikimap = this,
 				drawnItems = wikimap.featureGroup,
 				map = this.map;
@@ -121,12 +156,12 @@
 					text: $.toJSON( this.toGeoJSON() ),
 					contentmodel: 'GeoJSON'
 				};
-			if ( this.isDirty ) {
+			if ( this.status.isDirty() ) {
 				this.api.abort();
 			}
-			this.isDirty = true;
+			this.status.setDirty( true );
 			this.api.postWithToken( 'edit', apiOptions ).done( function() {
-				self.isDirty = false;
+				self.status.setDirty( false );
 			} );
 		}
 	};

@@ -9,3 +9,18 @@
 		float: right;
 	}
 }
+
+.mw-wikimap-status {
+	height: 24px;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 1000;
+	padding: 8px;
+	display: none;
+
+	&.dirty {
+		display: block;
+		background-color: yellow;
+	}
+}
