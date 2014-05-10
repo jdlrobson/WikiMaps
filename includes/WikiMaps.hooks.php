@@ -41,11 +41,12 @@ class GeoHooks {
 
 	public static function onBeforePageDisplay( $out, $skin ) {
 		$title = $out->getTitle();
+		$qs = $out->getRequest()->getValues();
 
 		$action = Action::getActionName( $out->getContext() );
 		if ( $title->getNamespace() === NS_MAP ) {
 			$out->addModules( 'wikimaps.scripts' );
-			if ( $action === 'view' ) {
+			if ( $action === 'view' && !isset( $qs['diff'] ) ) {
 				$out->clearHtml();
 				$out->addHtml( self::getMapHtml( $title ) );
 				$out->addJsConfigVars( self::getSkinConfigVariables() );
