@@ -47,7 +47,9 @@
 			} );
 
 			map.fitBounds( L.featureGroup( [ geoJson ] ).getBounds() );
-
+			if ( map.getZoom() > 19 ) {
+				map.setZoom( 15 );
+			}
 			if ( lat && lon ) {
 				map.setView( L.latLng( lat, lon ) );
 			}
