@@ -24,18 +24,18 @@ class GeoHooks {
 
 	public static function getMapHtml( $title, $className='' ) {
 		$page = WikiPage::factory( $title );
+		$attrs = array(
+			"class" => "mw-wiki-map " . $className,
+		);
 		if ( $page->exists() ) {
 			$content = $page->getContent();
 			$data = $content->getJsonData();
-		} else {
-			$data = array();
+			$data = json_encode( $data );
+			$attrs['data-map'] = $data;
 		}
-		$data = json_encode( $data );
+
 		return Html::element( 'div',
-			array(
-				"class" => "mw-wiki-map " . $className,
-				"data-map" => $data,
-			)
+			$attrs
 		);
 	}
 
