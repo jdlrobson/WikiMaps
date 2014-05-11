@@ -60,7 +60,7 @@ $wgHooks['ParserFirstCallInit'][] = 'GeoHooks::onWikiMapParserInit';
 
 // Global variables
 $wgWikiMapsTileServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
-$wgWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
+$wgWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://opendatacommons.org/licenses/odbl/">ODBL</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 $wgWikiMapsImagePath = '//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/images/';
 
 // ResourceLoader modules
