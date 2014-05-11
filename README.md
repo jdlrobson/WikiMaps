@@ -1,14 +1,16 @@
 To install:
 
-Add to your LocalSettings.php
-require_once("$IP/extensions/WikiMaps/WikiMaps.php");
+Add to your LocalSettings.php:
+
+    require_once("$IP/extensions/WikiMaps/WikiMaps.php");
 
 Make a map by visiting any page in the map namespace e.g. Map:Example
 
 Click edit to drop pins and construct shapes. Edits will save automatically and will have a revision history!
 
 Embed a map or many maps in your wiki and use class attribute to style.
-<map title="Map:Example" class="my class"></map>
+
+    <map title="Map:Example" class="my class"></map>
 
 # Background
 The idea is to centralize functionality and representation of maps in Wikipedia and related projects. Insipiration for the current starting point is derived from the maps embedded in wikivoyage.org https://en.wikivoyage.org/w/index.php?title=Zurich#Get_around
