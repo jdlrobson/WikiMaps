@@ -87,7 +87,7 @@ class GeoHooks {
 			$out->addModuleStyles( 'wikimaps.styles' );
 			$out->addModules( 'wikimaps.view.scripts' );
 
-			$className = $args['class'] ? $args['class'] : '';
+			$className = isset( $args['class'] ) ? $args['class'] : '';
 			return self::getMapHtml( $title, $className );
 		} else {
 			return '';
