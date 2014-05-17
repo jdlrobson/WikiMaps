@@ -57,11 +57,21 @@ class WikiMapHelpers {
 	 * @param $input
 	 * @param array $args array of options
 	 *              title: Find the map at the given title and render it
+	 *              position: Where the map should be located. Omit to make it full screen [left|right]
 	 * @param Parser $parser
 	 * @param PPFrame $frame
 	 * @return string HTML representation of map
 	 */
 	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
+		$className = isset( $args['class'] ) ? $args['class'] : '';
+		if ( isset( $args['position'] ) ) {
+			$pos = $args['position'];
+			if ( $pos === 'left' ) {
+				$className .= ' side-map side-map-left';
+			} else if ( $pos === 'right') {
+				$className .= ' side-map side-map-right';
+			}
+		}
 		if ( isset( $args['title'] ) ) {
 			$title = Title::newFromText( $args['title'], NS_MAP );
 			$out = $parser->getOutput();
@@ -69,10 +79,9 @@ class WikiMapHelpers {
 			$out->addModuleStyles( 'wikimaps.styles' );
 			$out->addModules( 'wikimaps.view.scripts' );
 
-			$className = isset( $args['class'] ) ? $args['class'] : '';
 			return self::getMapHtmlFromTitle( $title, $className );
 		} else {
-			return '';
+			return self::getMapHtml( array(), $className );
 		}
 	}
 
