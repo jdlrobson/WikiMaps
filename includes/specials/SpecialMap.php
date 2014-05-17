@@ -14,8 +14,8 @@ class SpecialMap extends SpecialPage {
 	public function render() {
 		$out = $this->getOutput();
 		$data = WikiMapHelpers::makeGeoJSONFromRequest( $this->getRequest() );
-		$out->addJsConfigVars( GeoHooks::getSkinConfigVariables() );
-		$out->addHtml( GeoHooks::getMapHtml( $data ) );
+		$out->addJsConfigVars( WikiMapHelpers::getSkinConfigVariables() );
+		$out->addHtml( WikiMapHelpers::getMapHtml( $data ) );
 	}
 
 	public function setHeaders() {

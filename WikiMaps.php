@@ -26,18 +26,15 @@ $wgExtraNamespaces[NS_MAP_TALK] = "Map_talk";
 
 // autoload extension classes
 $autoloadClasses = array (
-	'GeoHooks' => 'includes/WikiMaps.hooks.php',
 	'GeoJSONContent' => 'includes/GeoJSONContent.php',
 	'GeoJSONContentHandler' => 'includes/GeoJSONContentHandler.php',
 
 	'WikiMapHelpers' => 'includes/WikiMapHelpers.php',
+	'WikiMapsHooks' => 'includes/WikiMaps.hooks.php',
 	'SpecialMap' => 'includes/specials/SpecialMap.php',
 );
 
-
 $wgSpecialPages['Map'] = 'SpecialMap';
-
-$wgHooks[ 'CodeEditorGetPageLanguage' ][] = 'GeoHooks::onCodeEditorGetPageLanguage';
 
 /**
  * Takes a string of JSON data and formats it for readability.
@@ -56,13 +53,13 @@ foreach ( $autoloadClasses as $className => $classFilename ) {
 	$wgAutoloadClasses[$className] = __DIR__ . "/$classFilename";
 }
 
-$wgHooks['BeforePageDisplay'][]  = 'GeoHooks::onBeforePageDisplay';
-
 $wgContentHandlers[ 'GeoJSON' ] = 'GeoJSONContentHandler';
 $wgNamespaceContentModels[ NS_MAP ] = 'GeoJSON';
 
-// Parser hook
-$wgHooks['ParserFirstCallInit'][] = 'GeoHooks::onWikiMapParserInit';
+// Enable hooks
+$wgHooks[ 'CodeEditorGetPageLanguage' ][] = 'WikiMapsHooks::onCodeEditorGetPageLanguage';
+$wgHooks['ParserFirstCallInit'][] = 'WikiMapsHooks::onWikiMapParserInit';
+$wgHooks['BeforePageDisplay'][]  = 'WikiMapsHooks::onBeforePageDisplay';
 
 // Global variables
 $wgWikiMapsTileServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
