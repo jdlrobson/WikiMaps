@@ -29,7 +29,13 @@ $autoloadClasses = array (
 	'GeoHooks' => 'includes/WikiMaps.hooks.php',
 	'GeoJSONContent' => 'includes/GeoJSONContent.php',
 	'GeoJSONContentHandler' => 'includes/GeoJSONContentHandler.php',
+
+	'WikiMapHelpers' => 'includes/WikiMapHelpers.php',
+	'SpecialMap' => 'includes/specials/SpecialMap.php',
 );
+
+
+$wgSpecialPages['Map'] = 'SpecialMap';
 
 $wgHooks[ 'CodeEditorGetPageLanguage' ][] = 'GeoHooks::onCodeEditorGetPageLanguage';
 

@@ -39,7 +39,7 @@
 		this.featureGroup = new L.FeatureGroup();
 
 		if ( geoJsonData ) {
-			this.loadGeoJson( geoJsonData );
+			this.loadGeoJSON( geoJsonData );
 
 			if ( lat && lon ) {
 				this.map.setView( L.latLng( lat, lon ) );
@@ -57,7 +57,17 @@
 	}
 
 	WikiMap.prototype = {
-		loadGeoJson: function( geoJsonData ) {
+		isValidGeoJSONData: function( geoJsonData ) {
+			if ( geoJsonData.type && geoJsonData.features && geoJsonData.features.length > 0 ) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+		loadGeoJSON: function( geoJsonData ) {
+			if ( !this.isValidGeoJSONData( geoJsonData ) ) {
+				return;
+			}
 			var geoJson = L.geoJson( geoJsonData, {
 				onEachFeature: function ( feature, layer ) {
 					var $popup = $( '<div>' ),

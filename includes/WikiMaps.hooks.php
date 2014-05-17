@@ -9,7 +9,9 @@
  *
  */
 
+// FIXME: Rename to WikiMapsHooks
 class GeoHooks {
+	// FIXME: Move to WikiMapHelpers
 	public static function getSkinConfigVariables() {
 		global $wgWikiMapsTileServer,
 			$wgWikiMapsImagePath,
@@ -22,14 +24,25 @@ class GeoHooks {
 		);
 	}
 
-	public static function getMapHtml( $title, $className='' ) {
+	// FIXME: Move to WikiMapHelpers
+	public static function getMapHtmlFromTitle( $title, $className = '' ) {
 		$page = WikiPage::factory( $title );
-		$attrs = array(
-			"class" => "mw-wiki-map " . $className,
-		);
 		if ( $page->exists() ) {
 			$content = $page->getContent();
 			$data = $content->getJsonData();
+		} else {
+			$data = array();
+		}
+		return self::getMapHtml( $data, $className );
+	}
+
+	// FIXME: Move to WikiMapHelpers
+	public static function getMapHtml( $data, $className = '' ) {
+		$attrs = array(
+			"class" => "mw-wiki-map " . $className,
+		);
+
+		if ( $data ) {
 			$data = json_encode( $data );
 			$attrs['data-map'] = $data;
 		}
@@ -48,7 +61,7 @@ class GeoHooks {
 			$out->addModules( 'wikimaps.scripts' );
 			if ( $action === 'view' && !isset( $qs['diff'] ) ) {
 				$out->clearHtml();
-				$out->addHtml( self::getMapHtml( $title ) );
+				$out->addHtml( self::getMapHtmlFromTitle( $title ) );
 				$out->addJsConfigVars( self::getSkinConfigVariables() );
 				$out->addModuleStyles( 'wikimaps.styles' );
 				$out->addModules( 'wikimaps.view.scripts' );
@@ -79,6 +92,7 @@ class GeoHooks {
 	 * Probably needs linktable update
 	 * <map title="Map:MyMap" />
 	 */
+	// FIXME: Move to WikiMapHelpers
 	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
 		if ( isset( $args['title'] ) ) {
 			$title = Title::newFromText( $args['title'], NS_MAP );
@@ -88,7 +102,7 @@ class GeoHooks {
 			$out->addModules( 'wikimaps.view.scripts' );
 
 			$className = isset( $args['class'] ) ? $args['class'] : '';
-			return self::getMapHtml( $title, $className );
+			return self::getMapHtmlFromTitle( $title, $className );
 		} else {
 			return '';
 		}
