@@ -14,6 +14,9 @@ $modules = array(
 		'dependencies' => array(
 			'wikimaps.leaflet',
 		),
+		'messages' => array(
+			'wikimaps-special-map-saving',
+		),
 		'scripts' => array(
 			'resources/scripts/WikiMap.js',
 			'resources/scripts/main.js',

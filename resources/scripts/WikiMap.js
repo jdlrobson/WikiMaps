@@ -9,7 +9,7 @@
 	function WikiMapEditStatus( el ) {
 		var isDirty = false,
 			$icon = $( '<div class="mw-wikimap-status"></div>' ).
-				text( 'saving map...' ).appendTo( el );
+				text( mw.msg( 'wikimaps-special-map-saving' ) ).appendTo( el );
 
 		this.setDirty = function( status ) {
 			isDirty = status;

@@ -4,5 +4,6 @@
 			"Jdlrobson"
 		]
 	},
-	"wikimaps-special-map-title": "Title of the Special:Maps page"
+	"wikimaps-special-map-title": "Title of the Special:Maps page",
+	"wikimaps-special-map-saving": "Message that shows whilst map is being saved."
 }
