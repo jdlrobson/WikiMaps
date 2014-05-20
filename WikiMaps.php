@@ -35,6 +35,8 @@ $autoloadClasses = array (
 );
 
 $wgSpecialPages['Map'] = 'SpecialMap';
+$wgMessagesDirs['WikiMaps'] = __DIR__ . '/i18n';
+$wgExtensionMessagesFiles['WikiMapsAlias'] = __DIR__ . "/WikiMaps.alias.php";
 
 /**
  * Takes a string of JSON data and formats it for readability.

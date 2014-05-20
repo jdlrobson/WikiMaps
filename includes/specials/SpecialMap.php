@@ -21,8 +21,7 @@ class SpecialMap extends SpecialPage {
 	public function setHeaders() {
 		parent::setHeaders();
 		$out = $this->getOutput();
-		// FIXME: i18n
-		$out->setPageTitle( 'Maps' );
+		$out->setPageTitle( $this->msg( 'wikimaps-special-map-title' ) );
 		$out->addModuleStyles( 'wikimaps.styles' );
 		$out->addModules( 'wikimaps.view.scripts' );
 	}
