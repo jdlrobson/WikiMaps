@@ -159,14 +159,21 @@
 				self.save();
 			} );
 		},
+                toJSON:function(obj){
+                    if ($.toJSON){
+                        return $.toJSON(obj);
+                    }
+                    return JSON.stringify(obj);
+                },
 		save: function() {
+                    console.log(this);
 			var self = this,
 				apiOptions = {
 					action: 'edit',
 					title: mw.config.get( 'wgPageName' ),
 					summary: 'Updated map via edit interface',
 					contentformat: 'application/json',
-					text: $.toJSON( this.toGeoJSON() ),
+					text: this.toJSON( this.toGeoJSON()),
 					contentmodel: 'GeoJSON'
 				};
 			if ( this.status.isDirty() ) {
