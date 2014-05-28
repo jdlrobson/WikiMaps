@@ -1,7 +1,9 @@
 <?php
+
 use ShareMapPhp\SVGRenderer as SVGRenderer;
 
 class WikiMapHelpers {
+
     /**
      * Get the config variables needed by JavaScript to render a map.
      * @return array of config variables to set in mw.config
@@ -55,11 +57,13 @@ class WikiMapHelpers {
 
     /**
      * Probably needs linktable update
-     * <map title="Map:MyMap" type="interactive|static" position="left|right"/>
+     * <map title="Map:MyMap" type="interactive|static" position="left|right" staticwidth="" staticheight=""/>
      * @param $input
      * @param array $args array of options
      *              title: Find the map at the given title and render it
      *              type: Interactive or Static map (default: interactive) [interactive|static]
+     *              staticwidth: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
+     *              staticheight: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
      *              position: Where the map should be located. Omit to make it full screen [left|right]
      * @param Parser $parser
      * @param PPFrame $frame
@@ -82,6 +86,8 @@ class WikiMapHelpers {
      * @param Parser $parser
      * @param PPFrame $frame
      * @return string HTML representation of map
+     * 
+     * TODO: CC-SA attribution have to handled either by including in SVG or overlaying HTML attribution over SVG
      */
     public static function embedInteractiveMap($input, array $args, Parser $parser, PPFrame $frame) {
         $className = isset($args['class']) ? $args['class'] : '';
@@ -110,6 +116,8 @@ class WikiMapHelpers {
      * @param $input
      * @param array $args array of options
      *              title: Find the map at the given title and render it
+     *              staticwidth: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
+     *              staticheight: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
      * @param Parser $parser
      * @param PPFrame $frame
      * @return string HTML representation of map
@@ -124,9 +132,10 @@ class WikiMapHelpers {
         $svgRenderer = new SVGRenderer();
         global $wgWikiMapsTileServer;
         $svgRenderer->tileUrlPattern = $wgWikiMapsTileServer;
-        $svgRenderer->viewportWidth = 1000;
-        $svgRenderer->viewportHeight= 1000;
-        $svgRenderer->embedImg = true;
+        $svgRenderer->viewportWidth = isset($args['staticwidth'])?$args['staticwidth']:800;
+        $svgRenderer->viewportHeight = isset($args['staticheight'])?$args['staticheight']:600;
+        // For testing it is better to turn this off, in case of caching or rasterizing image embeding is suggested
+        $svgRenderer->embedImg = false;
         $svgStr = $svgRenderer->renderSVG($data);
         return array($svgStr, "markerType" => 'nowiki');
     }
