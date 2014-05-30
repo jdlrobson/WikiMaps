@@ -1,5 +1,7 @@
 To install:
 
+You need to have MediaWiki in version >=1.23 installed
+
 Add to your LocalSettings.php:
 
     require_once("$IP/extensions/WikiMaps/WikiMaps.php");
