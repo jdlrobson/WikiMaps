@@ -57,7 +57,7 @@ class WikiMapHelpers {
 
 	/**
 	 * Probably needs linktable update
-	 * <map title="Map:MyMap" type="interactive|static" position="left|right" staticwidth="" staticheight=""/>
+	 * <map title="Map:MyMap" type="interactive|static" position="left|right" width="800" height="600" fit="box|extend"/>
 	 * @param $input
 	 * @param array $args array of options
 	 *              title: Find the map at the given title and render it
@@ -136,7 +136,7 @@ class WikiMapHelpers {
 		$svgRenderer->tileUrlPattern = $wgWikiMapsTileServer;
 		$svgRenderer->viewportWidth = isset( $args[ 'width' ] ) ? $args[ 'width' ] : 800;
 		$svgRenderer->viewportHeight = isset( $args[ 'height' ] ) ? $args[ 'height' ] : 600;
-		$fit = isset( $args[ 'fit' ] ) ? $args[ 'fit' ] : "box";
+		$fit = isset( $args[ 'fit' ] ) ? $args[ 'fit' ] : "extend";
 		$svgRenderer->fit = $fit; // Not implemented yet
 		// For testing it is better to turn this off, in case of caching or rasterizing image embeding is suggested
 		$svgRenderer->embedImg = false;
