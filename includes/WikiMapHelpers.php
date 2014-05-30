@@ -13,7 +13,7 @@ class WikiMapHelpers {
 		$wgWikiMapsImagePath,
 		$wgWikiMapsAttribution;
 
-		return array (
+		return array(
 			'wgWikiMapsTileServer' => $wgWikiMapsTileServer,
 			'wgWikiMapsAttribution' => $wgWikiMapsAttribution,
 			'wgWikiMapsImagePath' => $wgWikiMapsImagePath,
@@ -31,7 +31,7 @@ class WikiMapHelpers {
 			$content = $page->getContent();
 			$data = $content->getJsonData();
 		} else {
-			$data = array ();
+			$data = array();
 		}
 		return self::getMapHtml( $data, $className );
 	}
@@ -42,7 +42,7 @@ class WikiMapHelpers {
 	 * @return string HTML representation of map
 	 */
 	public static function getMapHtml( $data, $className = '' ) {
-		$attrs = array (
+		$attrs = array(
 			"class" => "mw-wiki-map " . $className,
 		);
 
@@ -108,7 +108,7 @@ class WikiMapHelpers {
 
 			return self::getMapHtmlFromTitle( $title, $className );
 		} else {
-			return self::getMapHtml( array (), $className );
+			return self::getMapHtml( array(), $className );
 		}
 	}
 
@@ -137,7 +137,7 @@ class WikiMapHelpers {
 		// For testing it is better to turn this off, in case of caching or rasterizing image embeding is suggested
 		$svgRenderer->embedImg = false;
 		$svgStr = $svgRenderer->renderSVG( $data );
-		return array ( $svgStr, "markerType" => 'nowiki' );
+		return array( $svgStr, "markerType" => 'nowiki' );
 	}
 
 	/**
@@ -148,11 +148,11 @@ class WikiMapHelpers {
 	 * @param string $type the type of shape the coordinate describes.
 	 * @return array The GeoJSON that is equivalent to the API result. If no geodata found returns empty array.
 	 */
-	public static function createFeature( $coordinates, $props = array (), $type = 'Point' ) {
-		return array (
+	public static function createFeature( $coordinates, $props = array(), $type = 'Point' ) {
+		return array(
 			"type" => "Feature",
 			"properties" => $props,
-			"geometry" => array (
+			"geometry" => array(
 				"type" => $type,
 				"coordinates" => $coordinates,
 			),
@@ -165,7 +165,7 @@ class WikiMapHelpers {
 	 * @return array The GeoJSON that is equivalent to the API result. If no geodata found returns empty array.
 	 */
 	public static function makeGeoJSONFromRequest( $request ) {
-		$features = array ();
+		$features = array();
 		$vals = $request->getValues();
 		$vals[ 'format' ] = 'json';
 		$vals[ 'action' ] = 'query';
@@ -182,20 +182,20 @@ class WikiMapHelpers {
 
 			foreach ( $pages as $page ) {
 				if ( isset( $page[ 'coordinates' ] ) ) {
-					$props = array ();
+					$props = array();
 					if ( isset( $page[ 'title' ] ) ) {
 						$props[ 'name' ] = $page[ 'title' ];
 					}
 					$point_coords = $page[ 'coordinates' ];
 					foreach ( $point_coords as $coord ) {
-						$coords = array ( $coord[ 'lon' ], $coord[ 'lat' ] );
+						$coords = array( $coord[ 'lon' ], $coord[ 'lat' ] );
 						$features[] = WikiMapHelpers::createFeature( $coords, $props );
 					}
 				}
 			}
 		}
 
-		$data = array (
+		$data = array(
 			"type" => "FeatureCollection",
 			"features" => $features,
 		);

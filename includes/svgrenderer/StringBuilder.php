@@ -1,4 +1,5 @@
 <?php
+
 /*
  * ShareMap PHP library https://github.com/ShareMap/ShareMap-php
  * Author: jkan997
@@ -18,28 +19,27 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.
  */
+
 namespace ShareMapPhp;
 
 class StringBuilder {
 
-    private $buffer = "";
-    private $addNl = true;
+	private $buffer = "";
+	private $addNl = true;
 
-    public function append($content, $params = null) {
-        if (!isset($params)) {
-            $this->buffer .= $content;
-        } else {
-            $this->buffer .= vsprintf($content, $params);
-        }
-        if ($this->addNl === true) {
-            $this->buffer .= "\n";
-        }
-    }
+	public function append( $content, $params = null ) {
+		if ( !isset( $params ) ) {
+			$this->buffer .= $content;
+		} else {
+			$this->buffer .= vsprintf( $content, $params );
+		}
+		if ( $this->addNl === true ) {
+			$this->buffer .= "\n";
+		}
+	}
 
-    public function toString() {
-        return $this->buffer;
-    }
+	public function toString() {
+		return $this->buffer;
+	}
 
 }
-
-?>

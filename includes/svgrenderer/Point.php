@@ -1,4 +1,5 @@
 <?php
+
 /*
  * ShareMap PHP library https://github.com/ShareMap/ShareMap-php
  * Developed under ShareMap project http://sharemap.org/
@@ -17,12 +18,12 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.
  */
+
 namespace ShareMapPhp;
 
 class Point {
 
-    public $x;
-    public $y;
+	public $x;
+	public $y;
 
 }
-

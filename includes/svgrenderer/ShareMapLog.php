@@ -1,4 +1,5 @@
 <?php
+
 /*
  * ShareMap PHP library https://github.com/ShareMap/ShareMap-php
  * Developed under ShareMap project http://sharemap.org/
@@ -17,24 +18,25 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.
  */
+
 namespace ShareMapPhp;
 
 class ShareMapLog {
 
-    public static $logToConsole = false;
+	public static $logToConsole = false;
 
-    public static function info($msg) {
-        if (ShareMapLog::$logToConsole === true) {
-            echo $msg . "\n";
-        }
-    }
-    
-    public static function logVar($key,$val) {
-       ShareMapLog::info($key . " = ".$val);
-    }
+	public static function info( $msg ) {
+		if ( ShareMapLog::$logToConsole === true ) {
+			echo $msg . "\n";
+		}
+	}
 
-    public static function error($msg) {
-        ShareMapLog::info("ERROR " . $msg);
-    }
+	public static function logVar( $key, $val ) {
+		ShareMapLog::info( $key . " = " . $val );
+	}
+
+	public static function error( $msg ) {
+		ShareMapLog::info( "ERROR " . $msg );
+	}
 
 }

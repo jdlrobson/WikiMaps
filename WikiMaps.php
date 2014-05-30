@@ -26,7 +26,7 @@ $wgExtraNamespaces[ NS_MAP ] = "Map";
 $wgExtraNamespaces[ NS_MAP_TALK ] = "Map_talk";
 
 // autoload extension classes
-$autoloadClasses = array (
+$autoloadClasses = array(
 	'GeoJSONContent' => 'includes/GeoJSONContent.php',
 	'GeoJSONContentHandler' => 'includes/GeoJSONContentHandler.php',
 	'WikiMapHelpers' => 'includes/WikiMapHelpers.php',
@@ -73,9 +73,9 @@ $wgWikiMapsImagePath = 'http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/imag
 /**
  * A boilerplate for resource loader modules
  */
-$wgWikiMapsBoilerplate = array (
+$wgWikiMapsBoilerplate = array(
 	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'WikiMaps',
-	'targets' => array ( 'mobile', 'desktop' ),
+	'targets' => array( 'mobile', 'desktop' ),
 );
 require_once __DIR__ . "/includes/Resources.php";

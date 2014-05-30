@@ -1,4 +1,5 @@
 <?php
+
 /*
  * ShareMap PHP library https://github.com/ShareMap/ShareMap-php
  * Developed under ShareMap project http://sharemap.org/
@@ -17,50 +18,49 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.
  */
+
 namespace ShareMapPhp;
 
 class ImgDownloader {
 
-    private static $instance = false;
+	private static $instance = false;
 
-    public static function getInstance() {
-        if (self::$instance == false) {
-            self::$instance = new ImgDownloader();
-        }
-        return self::$instance;
-    }
+	public static function getInstance() {
+		if ( self::$instance == false ) {
+			self::$instance = new ImgDownloader();
+		}
+		return self::$instance;
+	}
 
-    private function __construct() {
-        
-    }
+	private function __construct() {
+		
+	}
 
-    public function getUrlContent($url) {
-        $ch = curl_init();
-        $timeout = 5;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $data = curl_exec($ch);
-        curl_close($ch);
-        return $data;
-    }
+	public function getUrlContent( $url ) {
+		$ch = curl_init();
+		$timeout = 5;
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
+		$data = curl_exec( $ch );
+		curl_close( $ch );
+		return $data;
+	}
 
-    public function getUrlAsDataUrl($url) {
-        $data = $this->getUrlContent($url);
-        $urll = strtolower($url);
-        if (strpos($urll, ".png") !== false) {
-            $format = "png";
-        };
-        if (strpos($urll, ".jpg") !== false) {
-            $format = "jpg";
-        };
-        if (strpos($urll, ".jpeg") !== false) {
-            $format = "jpg";
-        };
-        $base64 = 'data:image/' . $format . ';base64,' . base64_encode($data);
-        return $base64;
-    }
+	public function getUrlAsDataUrl( $url ) {
+		$data = $this->getUrlContent( $url );
+		$urll = strtolower( $url );
+		if ( strpos( $urll, ".png" ) !== false ) {
+			$format = "png";
+		}
+		if ( strpos( $urll, ".jpg" ) !== false ) {
+			$format = "jpg";
+		}
+		if ( strpos( $urll, ".jpeg" ) !== false ) {
+			$format = "jpg";
+		}
+		$base64 = 'data:image/' . $format . ';base64,' . base64_encode( $data );
+		return $base64;
+	}
 
 }
-?>
-
