@@ -62,9 +62,10 @@ class WikiMapHelpers {
 	 * @param array $args array of options
 	 *              title: Find the map at the given title and render it
 	 *              type: Interactive or Static map (default: interactive) [interactive|static]
-	 *              staticwidth: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
-	 *              staticheight: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
-	 *              position: Where the map should be located. Omit to make it full screen [left|right]
+	 *              width: Width of map box in pixels 
+	 *              height: Height of map box in pixels
+	 * 				fit: box|extend, in box mode rendered image has to fit inside the box but can have on dimension smaller, in extend mode renderer try to fit entire box, even with empty space
+	 *               position: Where the map should be located. Omit to make it full screen [left|right]
 	 * @param Parser $parser
 	 * @param PPFrame $frame
 	 * @return string HTML representation of map
@@ -118,6 +119,7 @@ class WikiMapHelpers {
 	 *              title: Find the map at the given title and render it
 	 *              staticwidth: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
 	 *              staticheight: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
+	 * 				fit: box|extend, in box mode rendered image has to fit inside the box but can have on dimension smaller, in extend mode renderer try to fit entire box, even with empty space
 	 * @param Parser $parser
 	 * @param PPFrame $frame
 	 * @return string HTML representation of map
@@ -132,8 +134,10 @@ class WikiMapHelpers {
 		$svgRenderer = new SVGRenderer();
 		global $wgWikiMapsTileServer;
 		$svgRenderer->tileUrlPattern = $wgWikiMapsTileServer;
-		$svgRenderer->viewportWidth = isset( $args[ 'staticwidth' ] ) ? $args[ 'staticwidth' ] : 800;
-		$svgRenderer->viewportHeight = isset( $args[ 'staticheight' ] ) ? $args[ 'staticheight' ] : 600;
+		$svgRenderer->viewportWidth = isset( $args[ 'width' ] ) ? $args[ 'width' ] : 800;
+		$svgRenderer->viewportHeight = isset( $args[ 'height' ] ) ? $args[ 'height' ] : 600;
+		$fit = isset( $args[ 'fit' ] ) ? $args[ 'fit' ] : "box";
+		$svgRenderer->fit = $fit; // Not implemented yet
 		// For testing it is better to turn this off, in case of caching or rasterizing image embeding is suggested
 		$svgRenderer->embedImg = false;
 		$svgStr = $svgRenderer->renderSVG( $data );
