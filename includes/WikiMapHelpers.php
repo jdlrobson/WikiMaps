@@ -48,7 +48,7 @@ class WikiMapHelpers {
 
 		if ( $data ) {
 			$data = json_encode( $data );
-			$attrs[ 'data-map' ] = $data;
+			$attrs['data-map'] = $data;
 		}
 
 		return Html::element( 'div', $attrs
@@ -70,8 +70,8 @@ class WikiMapHelpers {
 	 * @return string HTML representation of map
 	 */
 	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
-		if ( isset( $args[ 'type' ] ) ) {
-			if ( $args[ 'type' ] === "static" ) {
+		if ( isset( $args['type'] ) ) {
+			if ( $args['type'] === "static" ) {
 				return self::embedStaticMapTag( $input, $args, $parser, $frame );
 			}
 		}
@@ -90,17 +90,17 @@ class WikiMapHelpers {
 	 * TODO: CC-SA attribution have to handled either by including in SVG or overlaying HTML attribution over SVG
 	 */
 	public static function embedInteractiveMap( $input, array $args, Parser $parser, PPFrame $frame ) {
-		$className = isset( $args[ 'class' ] ) ? $args[ 'class' ] : '';
-		if ( isset( $args[ 'position' ] ) ) {
-			$pos = $args[ 'position' ];
+		$className = isset( $args['class'] ) ? $args['class'] : '';
+		if ( isset( $args['position'] ) ) {
+			$pos = $args['position'];
 			if ( $pos === 'left' ) {
 				$className .= ' side-map side-map-left';
 			} else if ( $pos === 'right' ) {
 				$className .= ' side-map side-map-right';
 			}
 		}
-		if ( isset( $args[ 'title' ] ) ) {
-			$title = Title::newFromText( $args[ 'title' ], NS_MAP );
+		if ( isset( $args['title'] ) ) {
+			$title = Title::newFromText( $args['title'], NS_MAP );
 			$out = $parser->getOutput();
 			$out->addJsConfigVars( self::getSkinConfigVariables() );
 			$out->addModuleStyles( 'wikimaps.styles' );
@@ -124,7 +124,7 @@ class WikiMapHelpers {
 	 */
 	public static function embedStaticMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
 		$parser->disableCache();
-		$title = Title::newFromText( $args[ 'title' ], NS_MAP );
+		$title = Title::newFromText( $args['title'], NS_MAP );
 		$out = $parser->getOutput();
 		$page = WikiPage::factory( $title );
 		$content = $page->getContent();
@@ -132,12 +132,12 @@ class WikiMapHelpers {
 		$svgRenderer = new SVGRenderer();
 		global $wgWikiMapsTileServer;
 		$svgRenderer->tileUrlPattern = $wgWikiMapsTileServer;
-		$svgRenderer->viewportWidth = isset( $args[ 'staticwidth' ] ) ? $args[ 'staticwidth' ] : 800;
-		$svgRenderer->viewportHeight = isset( $args[ 'staticheight' ] ) ? $args[ 'staticheight' ] : 600;
+		$svgRenderer->viewportWidth = isset( $args['staticwidth'] ) ? $args['staticwidth'] : 800;
+		$svgRenderer->viewportHeight = isset( $args['staticheight'] ) ? $args['staticheight'] : 600;
 		// For testing it is better to turn this off, in case of caching or rasterizing image embeding is suggested
 		$svgRenderer->embedImg = false;
 		$svgStr = $svgRenderer->renderSVG( $data );
-		return array( $svgStr, "markerType" => 'nowiki' );
+		return array($svgStr, "markerType" => 'nowiki');
 	}
 
 	/**
@@ -167,8 +167,8 @@ class WikiMapHelpers {
 	public static function makeGeoJSONFromRequest( $request ) {
 		$features = array();
 		$vals = $request->getValues();
-		$vals[ 'format' ] = 'json';
-		$vals[ 'action' ] = 'query';
+		$vals['format'] = 'json';
+		$vals['action'] = 'query';
 		$api = new ApiMain(
 				new DerivativeRequest( $request, $vals )
 		);
@@ -177,18 +177,18 @@ class WikiMapHelpers {
 		$result = $api->getResult()->getData();
 
 		// FIXME: What if query is not format=json ?
-		if ( isset( $result[ 'query' ] ) && isset( $result[ 'query' ][ 'pages' ] ) ) {
-			$pages = $result[ 'query' ][ 'pages' ];
+		if ( isset( $result['query'] ) && isset( $result['query']['pages'] ) ) {
+			$pages = $result['query']['pages'];
 
 			foreach ( $pages as $page ) {
-				if ( isset( $page[ 'coordinates' ] ) ) {
+				if ( isset( $page['coordinates'] ) ) {
 					$props = array();
-					if ( isset( $page[ 'title' ] ) ) {
-						$props[ 'name' ] = $page[ 'title' ];
+					if ( isset( $page['title'] ) ) {
+						$props['name'] = $page['title'];
 					}
-					$point_coords = $page[ 'coordinates' ];
+					$point_coords = $page['coordinates'];
 					foreach ( $point_coords as $coord ) {
-						$coords = array( $coord[ 'lon' ], $coord[ 'lat' ] );
+						$coords = array($coord['lon'], $coord['lat']);
 						$features[] = WikiMapHelpers::createFeature( $coords, $props );
 					}
 				}

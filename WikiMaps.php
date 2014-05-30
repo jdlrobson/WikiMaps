@@ -20,20 +20,20 @@
  * @ingroup extensions
  */
 
-define('NS_MAP', 42);
-define('NS_MAP_TALK', 43);
+define( 'NS_MAP', 42 );
+define( 'NS_MAP_TALK', 43 );
 $wgExtraNamespaces[NS_MAP] = "Map";
 $wgExtraNamespaces[NS_MAP_TALK] = "Map_talk";
 
 // autoload extension classes
 $autoloadClasses = array(
-    'GeoJSONContent' => 'includes/GeoJSONContent.php',
-    'GeoJSONContentHandler' => 'includes/GeoJSONContentHandler.php',
-    'WikiMapHelpers' => 'includes/WikiMapHelpers.php',
-    'WikiMapsHooks' => 'includes/WikiMaps.hooks.php',
-    'SpecialMap' => 'includes/specials/SpecialMap.php',
-    'ShareMapPhp\SVGRenderer' => 'includes/svgrenderer/SVGRenderer.php'
-); 
+	'GeoJSONContent' => 'includes/GeoJSONContent.php',
+	'GeoJSONContentHandler' => 'includes/GeoJSONContentHandler.php',
+	'WikiMapHelpers' => 'includes/WikiMapHelpers.php',
+	'WikiMapsHooks' => 'includes/WikiMaps.hooks.php',
+	'SpecialMap' => 'includes/specials/SpecialMap.php',
+	'ShareMapPhp\SVGRenderer' => 'includes/svgrenderer/SVGRenderer.php'
+);
 
 $wgSpecialPages['Map'] = 'SpecialMap';
 $wgMessagesDirs['WikiMaps'] = __DIR__ . '/i18n';
@@ -44,16 +44,16 @@ $wgExtensionMessagesFiles['WikiMapsAlias'] = __DIR__ . "/WikiMaps.alias.php";
  * @param string $json
  * @return string|null: Formatted JSON or null if input was invalid.
  */
-function efMapBeautifyJson($json) {
-    $decoded = FormatJson::decode($json, true);
-    if (!is_array($decoded)) {
-        return;
-    }
-    return FormatJson::encode($decoded, true);
+function efMapBeautifyJson( $json ) {
+	$decoded = FormatJson::decode( $json, true );
+	if ( !is_array( $decoded ) ) {
+		return;
+	}
+	return FormatJson::encode( $decoded, true );
 }
 
-foreach ($autoloadClasses as $className => $classFilename) {
-    $wgAutoloadClasses[$className] = __DIR__ . "/$classFilename";
+foreach ( $autoloadClasses as $className => $classFilename ) {
+	$wgAutoloadClasses[$className] = __DIR__ . "/$classFilename";
 }
 
 $wgContentHandlers['GeoJSON'] = 'GeoJSONContentHandler';
@@ -74,8 +74,8 @@ $wgWikiMapsImagePath = 'http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/imag
  * A boilerplate for resource loader modules
  */
 $wgWikiMapsBoilerplate = array(
-    'localBasePath' => __DIR__,
-    'remoteExtPath' => 'WikiMaps',
-    'targets' => array('mobile', 'desktop'),
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'WikiMaps',
+	'targets' => array('mobile', 'desktop'),
 );
 require_once __DIR__ . "/includes/Resources.php";
