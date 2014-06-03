@@ -32,6 +32,7 @@ $autoloadClasses = array (
 	'WikiMapHelpers' => 'includes/WikiMapHelpers.php',
 	'WikiMapsHooks' => 'includes/WikiMaps.hooks.php',
 	'SpecialMap' => 'includes/specials/SpecialMap.php',
+	'ShareMapPhp\SVGRenderer' => 'includes/svgrenderer/SVGRenderer.php'
 );
 
 $wgSpecialPages['Map'] = 'SpecialMap';
@@ -66,7 +67,7 @@ $wgHooks['BeforePageDisplay'][]  = 'WikiMapsHooks::onBeforePageDisplay';
 // Global variables
 $wgWikiMapsTileServer = 'http://{s}.tiles.mapbox.com/v3/jdlrobson.i6l7dh8b/{z}/{x}/{y}.png';
 $wgWikiMapsAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://opendatacommons.org/licenses/odbl/">ODBL</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
-$wgWikiMapsImagePath = '//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/images/';
+$wgWikiMapsImagePath = 'http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/images/';
 
 // ResourceLoader modules
 /**
