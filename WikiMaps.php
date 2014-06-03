@@ -32,6 +32,7 @@ $autoloadClasses = array (
 	'WikiMapHelpers' => 'includes/WikiMapHelpers.php',
 	'WikiMapsHooks' => 'includes/WikiMaps.hooks.php',
 	'SpecialMap' => 'includes/specials/SpecialMap.php',
+	'ShareMapPhp\SVGRenderer' => 'includes/svgrenderer/SVGRenderer.php'
 );
 
 $wgSpecialPages['Map'] = 'SpecialMap';
