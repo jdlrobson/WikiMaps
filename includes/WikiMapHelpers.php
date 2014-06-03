@@ -1,4 +1,7 @@
 <?php
+
+use ShareMapPhp\SVGRenderer as SVGRenderer;
+
 class WikiMapHelpers {
 	/**
 	 * Get the config variables needed by JavaScript to render a map.
@@ -53,7 +56,30 @@ class WikiMapHelpers {
 	}
 	/**
 	 * Probably needs linktable update
-	 * <map title="Map:MyMap" />
+	 * <map title="Map:MyMap" type="interactive|static" position="left|right" width="800" height="600" fit="box|extend"/>
+	 * @param $input
+	 * @param array $args array of options
+	 *              title: Find the map at the given title and render it
+	 *              position: Where the map should be located. Omit to make it full screen [left|right]
+	 *              type: Interactive or Static map (default: interactive) [interactive|static]
+	 *              width: Width of map box in pixels
+	 *              height: Height of map box in pixels
+	 *              fit: [box|extend], in box mode rendered image has to fit inside the box but can have one
+	 *                dimension smaller, in extend mode renderer try to fit entire box, even with empty space
+	 * @param Parser $parser
+	 * @param PPFrame $frame
+	 * @return string HTML representation of map
+	 */
+	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
+		if ( isset( $args[ 'type' ] ) ) {
+			if ( $args[ 'type' ] === "static" ) {
+				return self::embedStaticMapTag( $input, $args, $parser, $frame );
+			}
+		}
+		return self::embedInteractiveMap( $input, $args, $parser, $frame );
+	}
+
+	/**
 	 * @param $input
 	 * @param array $args array of options
 	 *              title: Find the map at the given title and render it
@@ -61,11 +87,13 @@ class WikiMapHelpers {
 	 * @param Parser $parser
 	 * @param PPFrame $frame
 	 * @return string HTML representation of map
+	 *
+	 * TODO: CC-SA attribution have to handled either by including in SVG or overlaying HTML attribution over SVG
 	 */
-	public static function embedMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
-		$className = isset( $args['class'] ) ? $args['class'] : '';
-		if ( isset( $args['position'] ) ) {
-			$pos = $args['position'];
+	public static function embedInteractiveMap( $input, array $args, Parser $parser, PPFrame $frame ) {
+		$className = isset( $args[ 'class' ] ) ? $args[ 'class' ] : '';
+		if ( isset( $args[ 'position' ] ) ) {
+			$pos = $args[ 'position' ];
 			if ( $pos === 'left' ) {
 				$className .= ' side-map side-map-left';
 			} else if ( $pos === 'right') {
@@ -83,6 +111,37 @@ class WikiMapHelpers {
 		} else {
 			return self::getMapHtml( array(), $className );
 		}
+	}
+
+	/**
+	 * @param $input
+	 * @param array $args array of options
+	 *              title: Find the map at the given title and render it
+	 *              staticwidth: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
+	 *              staticheight: Width of map in pixels - only used in case of static map, this is maximum dimension, smaller can be in output because of viewport proportions
+	 * 				fit: box|extend, in box mode rendered image has to fit inside the box but can have on dimension smaller, in extend mode renderer try to fit entire box, even with empty space
+	 * @param Parser $parser
+	 * @param PPFrame $frame
+	 * @return string HTML representation of map
+	 */
+	public static function embedStaticMapTag( $input, array $args, Parser $parser, PPFrame $frame ) {
+		$parser->disableCache();
+		$title = Title::newFromText( $args[ 'title' ], NS_MAP );
+		$out = $parser->getOutput();
+		$page = WikiPage::factory( $title );
+		$content = $page->getContent();
+		$data = $content->getJsonData();
+		$svgRenderer = new SVGRenderer();
+		global $wgWikiMapsTileServer;
+		$svgRenderer->tileUrlPattern = $wgWikiMapsTileServer;
+		$svgRenderer->viewportWidth = isset( $args[ 'width' ] ) ? $args[ 'width' ] : 800;
+		$svgRenderer->viewportHeight = isset( $args[ 'height' ] ) ? $args[ 'height' ] : 600;
+		$fit = isset( $args[ 'fit' ] ) ? $args[ 'fit' ] : "extend";
+		$svgRenderer->fit = $fit; // Not implemented yet
+		// For testing it is better to turn this off, in case of caching or rasterizing image embeding is suggested
+		$svgRenderer->embedImg = false;
+		$svgStr = $svgRenderer->renderSVG( $data );
+		return array( $svgStr, "markerType" => 'nowiki' );
 	}
 
 	/**
